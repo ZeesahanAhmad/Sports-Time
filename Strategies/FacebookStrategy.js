@@ -1,0 +1,1 @@
+// currently we will not work on facebook strategy
