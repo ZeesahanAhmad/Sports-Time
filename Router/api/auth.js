@@ -4,7 +4,7 @@ const router=express.Router();
 const bcrypt=require('bcryptjs');
 const jsonwt=require('jsonwebtoken');
 var Register=require('../../Modal/Register');
-const key=require('../../variable/url').secreteKey;
+const key=require('../../variable/Url').secreteKey;
 
 
 
@@ -80,9 +80,13 @@ router.post('/login',(req,res)=>{
                     id:register.id
                 }
 
-                
+            //    code to generate token 
                var token=jsonwt.sign(credential, key, { expiresIn: '1h' });
                res.json({token:"bearer "+token});
+
+            //    code to pass token in header
+        
+            //    code to redirect to profile route which is private
 
 
                 
