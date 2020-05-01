@@ -4,10 +4,13 @@ const app=express();
 const passport=require('passport');
 const mongoose=require('mongoose');
 const bodyparser=require('body-parser');
+const path=require('path');
 
 app.use(passport.initialize());
 // importing and calling jwt strategy
 require('./Strategies/JWTstrategy')(passport);
+
+app.use('/',express.static(path.join(__dirname,"public")))
 
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
@@ -31,7 +34,7 @@ var port=3000||process.env.PORT;
 
 //middleware to use router from index.js
 app.use('/api/auth',auth);
-app.use('/api/',profile);
+app.use('/api',profile);
 
 
 

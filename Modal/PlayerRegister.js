@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 
 // create schema for player to register
-const RegisterSchema=new Schema({
+const PlayerRegisterSchema=new Schema({
     name:{
         type:String,
         require:true
@@ -13,12 +13,16 @@ const RegisterSchema=new Schema({
         require:true
     },
     sports:{
-        type:String,
+        type:[String],
         require:true
     },
     dob:{
         type:Date,
         default:Date.now()
+    },
+    gender:{
+        type:String,
+        require:true
     },
     password:{
         type:String,
@@ -28,5 +32,5 @@ const RegisterSchema=new Schema({
 });
 //create modal for Register schema
 
-module.exports=Register=mongoose.model('myRegister',RegisterSchema)
+module.exports=PlayerRegister=mongoose.model('myPlayerRegister',PlayerRegisterSchema)
 

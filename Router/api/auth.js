@@ -3,7 +3,7 @@ const express=require('express');
 const router=express.Router();
 const bcrypt=require('bcryptjs');
 const jsonwt=require('jsonwebtoken');
-var Register=require('../../Modal/Register');
+var PlayerRegister=require('../../Modal/PlayerRegister');
 const key=require('../../variable/Url').secreteKey;
 
 
@@ -19,7 +19,7 @@ const key=require('../../variable/Url').secreteKey;
 //@access:public
 
 router.post('/register',(req,res)=>{
-    Register.findOne({email:req.body.email})
+    PlayerRegister.findOne({email:req.body.email})
     .then(register=>{
         if(register){
             res.json({message:'email already exist !'})
@@ -28,7 +28,7 @@ router.post('/register',(req,res)=>{
             const info={};
             info.name=req.body.name,
             info.email=req.body.email,
-            info.sports=req.body.sports,
+            info.sports=req.body.sports.split(","),
             info.dob=req.body.dob,
             info.password=req.body.password
             //code to encrypt password.
@@ -38,7 +38,7 @@ router.post('/register',(req,res)=>{
                 if(err) throw err;
                 info.password=hash;
 
-            new Register(info)
+            new PlayerRegister(info)
             .save()
             .then(register=>{
                 res.json(register);
@@ -67,7 +67,7 @@ router.post('/login',(req,res)=>{
     var email=req.body.email;
     var password=req.body.password;
 
-    Register.findOne({email:email})
+    PlayerRegister.findOne({email:email})
     .then((register)=>{
         if(!register){
             res.status(400).json({loginError:"It looks like you don't have an account !"});
@@ -82,9 +82,11 @@ router.post('/login',(req,res)=>{
 
             //    code to generate token 
                var token=jsonwt.sign(credential, key, { expiresIn: '1h' });
-               res.json({token:"bearer "+token});
+               res.json({token:"Bearer "+token});
 
             //    code to pass token in header
+           
+            
         
             //    code to redirect to profile route which is private
 
